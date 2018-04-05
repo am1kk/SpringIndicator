@@ -26,6 +26,7 @@ public class RefreshIndicator: UIControl {
         }
     }
 
+    public var isNeedToUseSafeArea: Bool = true
     public let indicator = SpringIndicator(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     public private(set) var isRefreshing: Bool = false
 
@@ -151,7 +152,7 @@ public class RefreshIndicator: UIControl {
 
     private func scrollOffset(_ scrollView: UIScrollView) -> CGFloat {
         var offsetY = scrollView.contentOffset.y
-        if #available(iOS 11.0, tvOS 11.0, *) {
+        if #available(iOS 11.0, tvOS 11.0, *), isNeedToUseSafeArea {
             offsetY += initialInsetTop + scrollView.safeAreaInsets.top
         } else {
             offsetY += initialInsetTop
@@ -210,7 +211,7 @@ extension RefreshIndicator {
 
         let insetTop: CGFloat
         let safeAreaTop: CGFloat
-        if #available(iOS 11.0, tvOS 11.0, *) {
+        if #available(iOS 11.0, tvOS 11.0, *), isNeedToUseSafeArea {
             safeAreaTop = scrollView.safeAreaInsets.top
         } else {
             safeAreaTop = 0
